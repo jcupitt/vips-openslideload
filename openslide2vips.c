@@ -434,7 +434,7 @@ vips__openslide_generate( VipsRegion *out,
 	uint32_t bg = rslide->bg;
 	VipsRect *r = &out->valid;
 	int n = r->width * r->height;
-	uint32_t *buf = (uint32_t *) VIPS_REGION_ADDR( out, r->left, r->top );
+	uint8_t *buf = (uint8_t *) VIPS_REGION_ADDR( out, r->left, r->top );
 
 	const char *error;
 
@@ -454,7 +454,7 @@ vips__openslide_generate( VipsRegion *out,
 	 */
 	g_assert( VIPS_REGION_LSKIP( out ) == r->width * 4 );
 
-	openslide_read_region( rslide->osr, 
+	openslide_read_region_vips( rslide->osr, 
 		buf,
 		(r->left + rslide->bounds.left) * rslide->downsample, 
 		(r->top + rslide->bounds.top) * rslide->downsample, 
@@ -471,7 +471,7 @@ vips__openslide_generate( VipsRegion *out,
 
 	/* Since we are inside a cache, we know buf must be continuous.
 	 */
-	argb2rgba( buf, n, bg );
+	argb2rgba( (uint32_t *) buf, n, bg );
 
 	return( 0 );
 }

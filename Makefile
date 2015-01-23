@@ -17,15 +17,17 @@ CFLAGS += -shared -fPIC -Wall -g
 #solaris
 #CFLAGS += -Xa -Kpic 
 CPPFLAGS += `pkg-config vips openslide --cflags`
-LDFLAGS += `pkg-config vips openslide --libs`
+LIBS += `pkg-config vips openslide --libs`
 OUT = vips-openslide.plg
 
 all: $(OUT)
 debug: $(OUT)
 
+$(OBJS): Makefile
+
 $(OUT): $(OBJS)
 #linux 
-	$(CC) -o $(OUT) -shared $(OBJS)
+	$(LD) -o $(OUT) -shared $(OBJS) $(LIBS)
 #solaris
 #	ld -o $(OUT) -G $(OBJS)
 #	vips -plugin ./$(OUT) resample in.v in2.v out.v 0.1 20 1 1 0

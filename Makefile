@@ -13,7 +13,7 @@ HEADERS = openslide2vips.h
 TAGS = $(SRC) $(HEADERS)
 
 #linux
-CFLAGS += -shared -fPIC -Wall -g
+CFLAGS += -shared -fPIC -Wall -O3
 #solaris
 #CFLAGS += -Xa -Kpic 
 CPPFLAGS += `pkg-config vips openslide --cflags`
